@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    hikari:
+      max-lifetime: 420000
+      connection-timeout: 10000
+      validation-timeout: 10000
+      idle-timeout: 30000
+      jdbc-url: jdbc:h2:~/test
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+      maximum-pool-size: 50
