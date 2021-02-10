@@ -40,6 +40,22 @@ class ShortenLink(
 
     val createdAt: LocalDateTime
         get() = audit.createdAt
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is ShortenLink) {
+            return false
+        }
+
+        if(other == this) {
+            return true
+        }
+
+        return this.key != null && other.key != null && this.key == other.key
+    }
+
+    override fun hashCode(): Int {
+        return this.key?.hashCode() ?: 31
+    }
 }
 
 interface ShortenLinkRepository : JpaRepository<ShortenLink, Long> {
