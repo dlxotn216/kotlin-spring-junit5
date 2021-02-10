@@ -77,7 +77,7 @@ internal class ShortenLinkCreateServiceTest {
         val givenLink = "https://localhost:9090/set-password"
         val givenDomainUrl = "http://link.crscube.io"
 
-        doReturn(ShortenLink(givenKey, givenLink, Audit(createdAt = givenCreatedAt))).`when`(repository).save(any())
+        doReturn(ShortenLink(key = givenKey, originLink = givenLink, audit = Audit(createdAt = givenCreatedAt))).`when`(repository).save(any())
         doReturn(givenHash).`when`(service).getHash(givenKey, givenCreatedAt)
 
         // when

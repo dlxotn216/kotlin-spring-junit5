@@ -28,18 +28,18 @@ class ShortenLink(
         @Lob @Column(name = "ORIGIN_LINK", nullable = false)
         val originLink: String,
 
+        @Column(name = "HASH")
+        var hash: String = "",
+
         @Embedded
-        val handlingInfo: Audit = Audit()
+        val audit: Audit = Audit()
 ) : Serializable {
     companion object {
         const val serialVersionUID = 1L
     }
 
     val createdAt: LocalDateTime
-        get() = handlingInfo.createdAt
-
-    @Column(name = "HASH")
-    var hash: String = ""
+        get() = audit.createdAt
 }
 
 interface ShortenLinkRepository : JpaRepository<ShortenLink, Long> {
