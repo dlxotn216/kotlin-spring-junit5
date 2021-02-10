@@ -61,7 +61,7 @@ spring:
       local: local, local-db
 ```  
 
-만약 이전 설정을 유지하고 싶다
+만약 이전 설정을 유지하고 싶다면
 ```yaml
 spring:
   config:
