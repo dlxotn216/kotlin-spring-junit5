@@ -24,10 +24,12 @@ class ShortenLinkCreateService(
     @Transactional
     fun create(request: ShortenLinkCreateRequest, domainUrl: String): ShortenLinkCreateResponse {
         val shorten = repository.save(ShortenLink(originLink = request.link))
-        val key = shorten.key ?: throw IllegalStateException("${shorten.hash} is invalid")
-        shorten.hash = getHash(key, shorten.createdAt)
 
-        return ShortenLinkCreateResponse(key, shorten.originLink, "$domainUrl/${shorten.hash}")
+        return with(shorten) {
+            val sequence = key ?: throw UnCaughtableException(errorCode = "NPE", message = "Saved entity key is null")
+            hash = getHash(sequence, createdAt)
+            ShortenLinkCreateResponse(sequence, originLink, "$domainUrl/${hash}")
+        }
     }
 
     fun getHash(sequence: Long, createdAt: LocalDateTime): String {
