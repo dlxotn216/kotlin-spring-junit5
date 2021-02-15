@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.time.Duration
 
 /**
  * Created by itaesu on 2021/02/09.
@@ -28,9 +29,12 @@ class ShortenLinkCreateController(
     }
 }
 
-data class ShortenLinkCreateRequest(val link: String)
+data class ShortenLinkCreateRequest(val link: String,
+                                    val expirationDuration: Duration? = null)
+
 data class ShortenLinkCreateResponse(
         val key: Long,
         val originLink: String,
-        val shortenLink: String
+        val shortenLink: String,
+        val expiredAt: String = ""
 )

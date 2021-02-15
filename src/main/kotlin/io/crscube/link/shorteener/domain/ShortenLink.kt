@@ -5,6 +5,7 @@ import org.hibernate.envers.Audited
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import org.springframework.data.jpa.repository.JpaRepository
 import java.io.Serializable
+import java.time.Duration
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -31,6 +32,9 @@ class ShortenLink(
         @Column(name = "HASH")
         var hash: String = "",
 
+        @Column(name = "EXPIRATION_DURATION", nullable = true)
+        val expirationDuration: Duration? = null,
+
         @Embedded
         val audit: Audit = Audit()
 ) : Serializable {
@@ -41,12 +45,15 @@ class ShortenLink(
     val createdAt: LocalDateTime
         get() = audit.createdAt
 
+    val expiredAt: LocalDateTime?
+        get() = expirationDuration?.let { createdAt.plus(expirationDuration) }
+
     override fun equals(other: Any?): Boolean {
         if (other !is ShortenLink) {
             return false
         }
 
-        if(other == this) {
+        if (other == this) {
             return true
         }
 

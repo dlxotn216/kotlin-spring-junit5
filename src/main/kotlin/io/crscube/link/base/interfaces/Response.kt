@@ -5,6 +5,8 @@ import io.crscube.link.app.config.defaultLanguage
 import io.crscube.link.app.config.defaultSuccessMessage
 import io.crscube.link.app.config.defaultTimeZone
 import io.crscube.link.base.exception.UnCaughtableException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
@@ -36,11 +38,15 @@ data class FailResponse(
         val status: String = "fail"
 ) {
     companion object {
+        val log: Logger = LoggerFactory.getLogger(FailResponse::class.java)
+
         fun from(e: UnCaughtableException): ResponseEntity<FailResponse> =
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailResponse(errorCode = e.errorCode, message = e.message))
 
-        fun from(e: Exception): ResponseEntity<FailResponse> =
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailResponse(errorCode = "UNEXPECTED", message = e.message
+        fun from(e: Exception): ResponseEntity<FailResponse> {
+            log.error("Unexpected exception", e)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailResponse(errorCode = "UNEXPECTED", message = e.message
                         ?: ""))
+        }
     }
 }

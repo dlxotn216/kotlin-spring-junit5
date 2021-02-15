@@ -1,6 +1,7 @@
 package io.crscube.link.shorteener.application
 
 import io.crscube.link.app.config.initialSequence
+import io.crscube.link.app.utils.response
 import io.crscube.link.app.utils.yyyyMMddhhmmss
 import io.crscube.link.base.exception.UnCaughtableException
 import io.crscube.link.shorteener.domain.ShortenLink
@@ -23,12 +24,14 @@ class ShortenLinkCreateService(
 
     @Transactional
     fun create(request: ShortenLinkCreateRequest, domainUrl: String): ShortenLinkCreateResponse {
-        val shorten = repository.save(ShortenLink(originLink = request.link))
+        val shorten = with(request) {
+            repository.save(ShortenLink(originLink = link, expirationDuration = expirationDuration))
+        }
 
         return with(shorten) {
             val sequence = key ?: throw UnCaughtableException(errorCode = "NPE", message = "Saved entity key is null")
             hash = getHash(sequence, createdAt)
-            ShortenLinkCreateResponse(sequence, originLink, "$domainUrl/${hash}")
+            ShortenLinkCreateResponse(sequence, originLink, "$domainUrl/${hash}", expiredAt?.response() ?: "")
         }
     }
 

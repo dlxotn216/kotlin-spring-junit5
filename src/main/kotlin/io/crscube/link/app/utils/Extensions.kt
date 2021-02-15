@@ -1,6 +1,8 @@
 package io.crscube.link.app.utils
 
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 /**
@@ -11,3 +13,5 @@ import java.time.format.DateTimeFormatter
  * @since TBD
  */
 fun LocalDateTime.yyyyMMddhhmmss() = this.format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"))
+fun LocalDateTime.response() =
+        ZonedDateTime.of(this, ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss z"))

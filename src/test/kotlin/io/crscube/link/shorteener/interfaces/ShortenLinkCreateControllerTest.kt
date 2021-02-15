@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.time.Duration
 
 /**
  * Created by itaesu on 2021/02/09.
@@ -33,7 +34,7 @@ internal class ShortenLinkCreateControllerTest {
     lateinit var service: ShortenLinkCreateService
 
     @Test
-    fun `shouldReturnShortenLinkRetrieveResponse`() {
+    fun `Should return without expiration ShortenLinkRetrieveResponse`() {
         // given
         val givenLink = "https://localhost/set-password"
         val domainUrl = "https://link.crscube.io"
@@ -59,6 +60,44 @@ internal class ShortenLinkCreateControllerTest {
         // then
         perform.andExpect(MockMvcResultMatchers.status().isCreated)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("success"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.shortenLink").isNotEmpty)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.expiredAt").value(""))
+                .andDo(MockMvcResultHandlers.print())
+
+    }
+
+    @Test
+    fun `Should return with expiration ShortenLinkRetrieveResponse`() {
+        // given
+        val givenLink = "https://localhost/set-password"
+        val domainUrl = "https://link.crscube.io"
+        val givenShortenLink = "$domainUrl/aefaf"
+        val expirationDuration = "PT60M"    // 60 minutes
+        val request = ShortenLinkCreateRequest(givenLink, Duration.parse(expirationDuration))
+
+        doReturn(domainUrl).`when`(appConstants).domainUrl
+        `when`(service.create(request, domainUrl))
+                .thenReturn(ShortenLinkCreateResponse(1L, givenLink, givenShortenLink, "2021-02-12 12:34:56 UTC"))
+
+        // when
+        val post =
+                post("$API_V1/links")
+                        .accept("application/json")
+                        .contentType("application/json")
+                        .content("""
+                            {
+                              "link": "$givenLink",
+                              "expirationDuration": "$expirationDuration"
+                            }
+                        """.trimIndent())
+
+        val perform = this.mockMvc.perform(post)
+
+        // then
+        perform.andExpect(MockMvcResultMatchers.status().isCreated)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("success"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.shortenLink").isNotEmpty)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.expiredAt").isNotEmpty)
                 .andDo(MockMvcResultHandlers.print())
 
     }

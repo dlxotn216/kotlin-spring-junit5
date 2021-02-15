@@ -1,11 +1,11 @@
 package io.crscube.link.shorteener.application
 
-import io.crscube.link.app.config.AppConstants
 import io.crscube.link.base.domain.Audit
 import io.crscube.link.base.exception.UnCaughtableException
 import io.crscube.link.shorteener.domain.ShortenLink
 import io.crscube.link.shorteener.domain.ShortenLinkRepository
 import io.crscube.link.shorteener.interfaces.ShortenLinkCreateRequest
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
@@ -14,6 +14,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
+import java.time.Duration
 import java.time.LocalDateTime
 
 /**
@@ -28,9 +29,6 @@ internal class ShortenLinkCreateServiceTest {
 
     @Mock
     lateinit var repository: ShortenLinkRepository
-
-    @Mock
-    lateinit var constants: AppConstants
 
     @Spy
     @InjectMocks
@@ -86,6 +84,45 @@ internal class ShortenLinkCreateServiceTest {
         // then
         assert(originLink == givenLink)
         assert(shortenLink == "$givenDomainUrl/$givenHash")
+    }
 
+    @Test
+    fun `Should return expiredAt When expirationDuration is not null`() {
+        val givenKey = 1L
+        val givenHash = "aaaa"
+        val givenCreatedAt = LocalDateTime.now()
+        val givenLink = "https://localhost:9090/set-password"
+        val givenDomainUrl = "http://link.crscube.io"
+
+        doReturn(ShortenLink(key = givenKey,
+                originLink = givenLink,
+                expirationDuration = Duration.ofMinutes(60L),
+                audit = Audit(createdAt = givenCreatedAt))).`when`(repository).save(any())
+        doReturn(givenHash).`when`(service).getHash(givenKey, givenCreatedAt)
+
+        // when
+        with(service.create(ShortenLinkCreateRequest(givenLink), givenDomainUrl)) {
+            assertThat(expiredAt).isNotEmpty
+        }
+    }
+
+    @Test
+    fun `Should return expiredAt as emptyString When expirationDuration is null`() {
+        val givenKey = 1L
+        val givenHash = "aaaa"
+        val givenCreatedAt = LocalDateTime.now()
+        val givenLink = "https://localhost:9090/set-password"
+        val givenDomainUrl = "http://link.crscube.io"
+
+        doReturn(ShortenLink(key = givenKey,
+                originLink = givenLink,
+                expirationDuration = null,
+                audit = Audit(createdAt = givenCreatedAt))).`when`(repository).save(any())
+        doReturn(givenHash).`when`(service).getHash(givenKey, givenCreatedAt)
+
+        // when
+        with(service.create(ShortenLinkCreateRequest(givenLink), givenDomainUrl)) {
+            assertThat(expiredAt).isEmpty()
+        }
     }
 }
