@@ -1,13 +1,13 @@
-package io.crscube.link.shorteener.application
+package io.taesu.link.shorteener.application
 
-import io.crscube.link.app.config.initialSequence
-import io.crscube.link.app.utils.response
-import io.crscube.link.app.utils.yyyyMMddhhmmss
-import io.crscube.link.base.exception.UnCaughtableException
-import io.crscube.link.shorteener.domain.ShortenLink
-import io.crscube.link.shorteener.domain.ShortenLinkRepository
-import io.crscube.link.shorteener.interfaces.ShortenLinkCreateRequest
-import io.crscube.link.shorteener.interfaces.ShortenLinkCreateResponse
+import io.taesu.link.app.config.initialSequence
+import io.taesu.link.app.utils.response
+import io.taesu.link.app.utils.yyyyMMddhhmmss
+import io.taesu.link.base.exception.UnCaughtableException
+import io.taesu.link.shorteener.domain.ShortenLink
+import io.taesu.link.shorteener.domain.ShortenLinkRepository
+import io.taesu.link.shorteener.interfaces.ShortenLinkCreateRequest
+import io.taesu.link.shorteener.interfaces.ShortenLinkCreateResponse
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime

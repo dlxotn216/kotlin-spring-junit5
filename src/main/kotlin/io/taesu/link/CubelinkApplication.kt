@@ -1,4 +1,4 @@
-package io.crscube.link
+package io.taesu.link
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan

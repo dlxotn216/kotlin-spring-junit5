@@ -1,4 +1,4 @@
-package io.crscube.link.app.utils
+package io.taesu.link.app.utils
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest

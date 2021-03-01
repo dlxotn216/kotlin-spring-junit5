@@ -1,9 +1,9 @@
-package io.crscube.link.shorteener.interfaces
+package io.taesu.link.shorteener.interfaces
 
-import io.crscube.link.app.config.API_V1
-import io.crscube.link.app.config.AppConstants
-import io.crscube.link.base.interfaces.SuccessResponse
-import io.crscube.link.shorteener.application.ShortenLinkCreateService
+import io.taesu.link.app.config.API_V1
+import io.taesu.link.app.config.AppConstants
+import io.taesu.link.base.interfaces.SuccessResponse
+import io.taesu.link.shorteener.application.ShortenLinkCreateService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

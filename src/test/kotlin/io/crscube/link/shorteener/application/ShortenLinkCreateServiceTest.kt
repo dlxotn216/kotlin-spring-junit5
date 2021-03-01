@@ -1,10 +1,10 @@
-package io.crscube.link.shorteener.application
+package io.taesu.link.shorteener.application
 
-import io.crscube.link.base.domain.Audit
-import io.crscube.link.base.exception.UnCaughtableException
-import io.crscube.link.shorteener.domain.ShortenLink
-import io.crscube.link.shorteener.domain.ShortenLinkRepository
-import io.crscube.link.shorteener.interfaces.ShortenLinkCreateRequest
+import io.taesu.link.base.domain.Audit
+import io.taesu.link.base.exception.UnCaughtableException
+import io.taesu.link.shorteener.domain.ShortenLink
+import io.taesu.link.shorteener.domain.ShortenLinkRepository
+import io.taesu.link.shorteener.interfaces.ShortenLinkCreateRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

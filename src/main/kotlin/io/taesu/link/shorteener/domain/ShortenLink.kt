@@ -1,6 +1,6 @@
-package io.crscube.link.shorteener.domain
+package io.taesu.link.shorteener.domain
 
-import io.crscube.link.base.domain.Audit
+import io.taesu.link.base.domain.Audit
 import org.hibernate.envers.Audited
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import org.springframework.data.jpa.repository.JpaRepository
@@ -8,6 +8,7 @@ import java.io.Serializable
 import java.time.Duration
 import java.time.LocalDateTime
 import javax.persistence.*
+import kotlin.math.exp
 
 /**
  * Created by itaesu on 2021/02/09.
@@ -63,6 +64,8 @@ class ShortenLink(
     override fun hashCode(): Int {
         return this.key?.hashCode() ?: 31
     }
+
+    fun isExpired(now: LocalDateTime): Boolean = expiredAt != null && now.isAfter(expiredAt)
 }
 
 interface ShortenLinkRepository : JpaRepository<ShortenLink, Long> {

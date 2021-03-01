@@ -1,6 +1,6 @@
-package io.crscube.link.base.interfaces
+package io.taesu.link.base.interfaces
 
-import io.crscube.link.base.exception.UnCaughtableException
+import io.taesu.link.base.exception.UnCaughtableException
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.annotation.ControllerAdvice

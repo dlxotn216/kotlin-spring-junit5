@@ -1,4 +1,4 @@
-package io.crscube.link.app.config
+package io.taesu.link.app.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

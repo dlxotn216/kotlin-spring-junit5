@@ -1,10 +1,10 @@
-package io.crscube.link.base.interfaces
+package io.taesu.link.base.interfaces
 
-import io.crscube.link.app.config.defaultFailureMessage
-import io.crscube.link.app.config.defaultLanguage
-import io.crscube.link.app.config.defaultSuccessMessage
-import io.crscube.link.app.config.defaultTimeZone
-import io.crscube.link.base.exception.UnCaughtableException
+import io.taesu.link.app.config.defaultFailureMessage
+import io.taesu.link.app.config.defaultLanguage
+import io.taesu.link.app.config.defaultSuccessMessage
+import io.taesu.link.app.config.defaultTimeZone
+import io.taesu.link.base.exception.UnCaughtableException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

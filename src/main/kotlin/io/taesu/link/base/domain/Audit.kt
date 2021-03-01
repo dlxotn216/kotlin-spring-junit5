@@ -1,4 +1,4 @@
-package io.crscube.link.base.domain
+package io.taesu.link.base.domain
 
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
