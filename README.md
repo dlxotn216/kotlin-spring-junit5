@@ -120,7 +120,7 @@ kotlin-maven-allopen 플러그인을 사용하면 유용합니다.
 Hibernate에서 Entity의 equals, hashcode 등은 Entity의 식별자 혹은 NATURAL-ID, BUSINESS-KEY 등으로 구분이 되도록 하는 것이 좋다고 하지만  
 data class는 equals, hashcode 메서드를 모든 필드를 가지고 자동으로 처리하기에 kassava 라이브러리 등을 통해 추가 구현이 필요합니다.  
 
-destructuring은 유용할 수 있으나, 아래와 같은 copy를 이용한 immutable은 조금 더 귀찮아 지지 않을까 싶다
+destructuring은 유용할 수 있으나, 아래와 같은 copy를 이용한 immutable은 조금 더 귀찮아 지지 않을까 싶습니다.  
 ```kotlin
  var shorten = repository.save()
  // copy로 새로 객체를 생성한 경우 다시 영속화 해줘야 함
@@ -134,4 +134,4 @@ destructuring은 유용할 수 있으나, 아래와 같은 copy를 이용한 imm
  shorten.hash = getHash(key, shorten.createdAt)
 ```
 
-결과적으로 JPA Entity는 불변 대상이 아니므로 copy는 딱히 Entity에 유용할 것 같지는 않다
+Data 클래스는 불변이나 Entity는 불변 대상이 아니므로 copy는 딱히 Entity에 유용할 것 같지는 않다
